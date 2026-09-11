@@ -1,1 +1,1 @@
-Use the Task tool with subagent_type "pr-stack-worker" to fetch, rebase, push, and prune the current stack. Pass action: "stack-sync".
+Load and follow the `stack-sync` skill in the current context. Do not delegate this workflow to an agent.

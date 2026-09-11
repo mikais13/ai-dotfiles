@@ -1,6 +1,6 @@
 ---
 name: stack-merge
-description: Procedure reference for the pr-stack-worker agent's merge-stack action. Has no standalone meaning; must be loaded via Skill, never inferred from this description.
+description: Merge all or part of a gh-stack stack into trunk with explicit confirmation. Use for the merge-stack workflow.
 user-invocable: false
 ---
 

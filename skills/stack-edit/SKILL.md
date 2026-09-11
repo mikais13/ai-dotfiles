@@ -1,6 +1,6 @@
 ---
 name: stack-edit
-description: Procedure reference for the pr-stack-worker agent's edit-stack action. Has no standalone meaning; must be loaded via Skill, never inferred from this description.
+description: Rebase a gh-stack stack or update its pull request descriptions. Use for the edit-stack workflow.
 user-invocable: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: stack-add
-description: Procedure reference for the pr-stack-worker agent's add-to-stack action. Has no standalone meaning; must be loaded via Skill, never inferred from this description.
+description: Add the current branch or a confirmed branch chain to a gh-stack stack and submit its pull request. Use for the add-to-stack workflow.
 user-invocable: false
 ---
 

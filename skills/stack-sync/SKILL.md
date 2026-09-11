@@ -1,6 +1,6 @@
 ---
 name: stack-sync
-description: Procedure reference for the pr-stack-worker agent's sync-stack action. Has no standalone meaning; must be loaded via Skill, never inferred from this description.
+description: Synchronize and prune a gh-stack stack, then fill missing pull request descriptions. Use for the sync-stack workflow.
 user-invocable: false
 ---
 
