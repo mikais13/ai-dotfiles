@@ -1,34 +1,14 @@
-# Ignore everything by default
-*
-
-# Allow config files
-!CLAUDE.md
-!settings.json
-!.gitignore
-!keybindings.json
-
-# Allow config directories
-!commands/
-!commands/**
-!rules/
-!rules/**
-!agents/
-!agents/**
-!skills/
-!skills/**
-!hooks/
-!hooks/**
-
-# Allow plugin manifest (not cache files)
-!plugins/
-!plugins/installed_plugins.json
-
-# Allow linting and IDE config/ignore files
-!biome.json
-!eslintignore
-!prettierignore
-!.vscode/
-!.vscode/**
-
-# Allow RTK md file
-!RTK.md
+/*
+!/.gitignore
+!/CLAUDE.md
+!/RTK.md
+!/settings.json
+!/biome.json
+!/agents/
+!/agents/**
+!/commands/
+!/commands/**
+!/hooks/
+!/hooks/**
+!/skills/
+!/skills/**
