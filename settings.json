@@ -68,19 +68,12 @@
     "code-review@claude-plugins-official": false,
     "code-simplifier@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "prompt-improver@severity1-marketplace": true,
     "discord@claude-plugins-official": true,
     "plannotator@plannotator": true,
     "typescript-lsp@claude-plugins-official": true,
     "caveman@caveman": true
   },
   "extraKnownMarketplaces": {
-    "severity1-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "severity1/severity1-marketplace"
-      }
-    },
     "plannotator": {
       "source": {
         "source": "github",
