@@ -7,6 +7,10 @@ Also, aim to follow Zinsser's four principles of quality writing:
 - Clarity
 - Humanity
 
+# Session Privacy
+
+Do not include the current agent session, its ID, link, transcript, metadata, or attribution in commit messages or any other output or generated artifact unless the user explicitly asks you to do so.
+
 # Code Search (Semble)
 
 Semble is available via **both MCP tools and CLI**. Prefer MCP for top-level agent work; use CLI via Bash for sub-agents (they cannot call MCP tools directly).
