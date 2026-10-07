@@ -1,9 +1,9 @@
 ---
-name: code-review
-description: Review code changes and remove AI-generated patterns like excessive comments, gratuitous defensive checks, type escape hatches, and over-engineering.
+name: deslop
+description: Remove AI-generated patterns from code changes, such as excessive comments, gratuitous defensive checks, type escape hatches, and over-engineering. Use when asked to deslop, clean up, or review a branch or diff for AI code slop.
 ---
 
-# Code Review Skill
+# Deslop
 
 Review code changes and remove AI-generated patterns that don't match human-written code.
 
@@ -126,7 +126,7 @@ console.error(`Failed to process order ${orderId}: ${error.message}`);
 
 ## Review Process
 
-1. **Get the diff**: Compare against main branch
+1. **Get the diff**: Find the base branch that this work merges into. Usually it is the default branch of the remote. Run `git diff <base>...HEAD`, and `git diff HEAD` for uncommitted changes. Do not assume `main`.
 2. **Scan each file**: Look for the patterns above
 3. **Check consistency**: Compare against unchanged portions of same file
 4. **Make targeted fixes**: Remove slop without changing correct code
