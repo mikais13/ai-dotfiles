@@ -5,7 +5,6 @@
     "pr": "",
     "sessionUrl": false
   },
-  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(ls:*)",
@@ -92,7 +91,6 @@
       }
     }
   },
-  "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "modelSettings": {
     "claude-opus-5-5": {
