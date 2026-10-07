@@ -1,14 +1,14 @@
 ---
-name: stack-add
-description: Add the current branch or a confirmed branch chain to a gh-stack stack and submit its pull request. Use for the add-to-stack workflow.
-user-invocable: false
+name: add-to-stack
+description: Add the current branch or a confirmed branch chain to a gh-stack stack and submit its pull request.
+disable-model-invocation: true
 ---
 
 ## Shared subroutines
 
 ### Load gh-stack mechanics
 
-Before running any `gh stack` command this turn, invoke `Skill` with `skill: "gh-stack"`. Never guess flags from memory — bare `gh stack view` or `gh stack submit` (without `--auto`) hang waiting on interactive input, per the skill's own agent-safety rules. Re-check the skill's flag tables for `init`/`add` rather than assuming syntax.
+Before running any `gh stack` command, load and follow the `gh-stack` skill. Never guess flags from memory. Bare `gh stack view` and `gh stack submit` without `--auto` can wait for interactive input. Check the skill's flag tables for `init` and `add`.
 
 ### Fill-missing-descriptions loop
 
@@ -17,8 +17,8 @@ Given the `branches` array from a fresh `gh stack view --json`, for each entry t
 1. `gh pr view <number> --json body` — if `body` is non-empty and doesn't look like a bare auto-generated stub (i.e. it has more than just a commit-message dump with no structure), **skip this PR**. Never overwrite existing content here — only true gaps get filled.
 2. Otherwise, resolve this branch's actual parent **branch name** — do NOT use the `base` field from `gh stack view --json` for this (that field is the parent's HEAD SHA at last sync, not a branch name). Instead use `gh pr view <number> --json baseRefName` to get the real base branch name GitHub has recorded for this PR.
 3. Diff against that real base: `git log <baseRefName>...<branch> --oneline`, `git diff <baseRefName>...<branch>`.
-4. Invoke `Skill` with `skill: "pr-description"`, `args: "base branch: <baseRefName>"` — this reuses Mikai's style guide unchanged and skips the skill's own base-detection since you're supplying it explicitly.
-5. Generate a semantic-commit-style title (`type(scope): description`, same format/types as `pr-creator`) and apply both: `gh pr edit <number> --title "<title>" --body "$(cat <<'EOF'
+4. Load the `pr-description` skill with `base branch: <baseRefName>`. This uses Mikai's style guide and supplies the resolved base explicitly.
+5. Generate a semantic-commit-style title (`type(scope): description`, same format/types as `create-pr`) and apply both: `gh pr edit <number> --title "<title>" --body "$(cat <<'EOF'
 <description>
 
 EOF
@@ -28,7 +28,7 @@ EOF
 
 Used when no stack exists yet and you need to figure out which local branches make up the chain from trunk to the current branch.
 
-1. Determine trunk the same way `pr-creator` resolves base branches: for each of `main master develop staging` that exists as `origin/<b>`, compute `git merge-base HEAD origin/<b>`; the closest (most recent) merge-base wins.
+1. Determine trunk the same way `create-pr` resolves base branches: for each of `main master develop staging` that exists as `origin/<b>`, compute `git merge-base HEAD origin/<b>`; the closest (most recent) merge-base wins.
 2. Enumerate candidate branches: `git for-each-ref refs/heads --format='%(refname:short)'`, filtered to those that are both an ancestor of `HEAD` and a strict descendant of trunk (`git merge-base --is-ancestor <branch> HEAD` and `git merge-base --is-ancestor <trunk> <branch>`).
 3. Order the surviving candidates bottom-to-top by ancestor distance from trunk: `git rev-list --count <trunk>..<branch>`, ascending.
 4. This ordered list plus the resolved trunk is what you propose to the user in step 2 below — never run `gh stack init` on a guessed chain without confirmation.
@@ -40,7 +40,7 @@ Handles both "start a stack" and "add to a stack" — branch internally on wheth
 1. Run `gh stack view --json`.
 2. **If it fails / exit code 2 (no stack yet) — bootstrap path:**
    a. Run branch-chain detection (subroutine above).
-   b. `AskUserQuestion`: confirm the detected chain (in order) and trunk before mutating anything. Let the user override the chain or trunk if detection got it wrong.
+   b. Ask the user to confirm the detected chain, in order, and the trunk before any mutation. Let the user correct either value.
    c. `gh stack init <branches...> -b <trunk>` — this registers the whole confirmed chain in one call (existing branches are adopted automatically), so no separate `add` call is needed for bootstrap.
 3. **If it succeeds (stack already exists) — incremental path:**
    a. From the JSON, confirm the current branch is checked out on top of the stack's current top. `gh stack add` must run from the topmost branch — it exits with code 5 ("can only add branches on top of the stack") otherwise. If not on top, tell the user and stop rather than guessing whether to navigate for them.
