@@ -1,0 +1,16 @@
+# Paths that stow must not link into $HOME.
+# This list replaces the stow defaults, so it keeps the VCS entries.
+\.git
+\.gitignore
+\.DS_Store
+
+# Repository documents. A link at ~/AGENTS.md or ~/CLAUDE.md would load
+# as project instructions in every directory below $HOME.
+^/README.*
+^/AGENTS\.md
+^/CLAUDE\.md
+^/biome\.json
+
+# Copy this template to ~/.codex/config.toml one time. Codex writes
+# machine-local data to its config file.
+^/\.codex/config\.base\.toml

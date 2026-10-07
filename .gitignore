@@ -1,0 +1,6 @@
+.DS_Store
+
+# Claude Code writes skills from claude.ai to these directories.
+/.claude/skills/synced/
+/.claude/skills/.trash/
+/.agents/skills/synced/
