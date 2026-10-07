@@ -69,13 +69,10 @@
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "code-review@claude-plugins-official": false,
-    "code-simplifier@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true,
-    "discord@claude-plugins-official": true,
     "plannotator@plannotator": true,
     "typescript-lsp@claude-plugins-official": true,
-    "caveman@caveman": true
+    "caveman@caveman": true,
+    "engineering@synced": false
   },
   "extraKnownMarketplaces": {
     "plannotator": {

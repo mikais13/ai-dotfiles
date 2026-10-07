@@ -23,28 +23,16 @@ source = "https://github.com/backnotprop/plannotator.git"
 [plugins."caveman@caveman"]
 enabled = true
 
-[plugins."code-simplifier@claude-plugins-official"]
-enabled = true
-
 [plugins."frontend-design@claude-plugins-official"]
 enabled = true
 
 [plugins."pr-review-toolkit@claude-plugins-official"]
 enabled = true
 
-[plugins."ralph-loop@claude-plugins-official"]
-enabled = true
-
 [plugins."typescript-lsp@claude-plugins-official"]
 enabled = true
 
 [plugins."plannotator@plannotator"]
-enabled = true
-
-[plugins."code-review@claude-plugins-official"]
-enabled = true
-
-[plugins."discord@claude-plugins-official"]
 enabled = true
 
 # Match Claude's status line with Codex's built-in fields.
