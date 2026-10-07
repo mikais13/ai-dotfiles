@@ -1,7 +1,7 @@
 # Writing Guidelines
 
-Write in ASD-STE100 - Simplified Technical English.
-Also, aim to follow Zinsser's four principles of quality writing:
+Write in ASD-STE100 Simplified Technical English. Also follow these writing principles:
+
 - Simplicity
 - Brevity
 - Clarity
@@ -32,7 +32,7 @@ semble find-related src/auth.py 42 ./my-project
 
 ## Pushing to Git
 
-When pushing to git, prefer to use the `-u <remote> <branch>` flag to set the up-stream remote branch.     
+When pushing to git, prefer to use the `-u <remote> <branch>` flag to set the up-stream remote branch.
 
 ## Workflow
 
