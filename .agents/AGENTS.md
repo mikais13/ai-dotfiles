@@ -7,14 +7,6 @@ Write in ASD-STE100 Simplified Technical English. Also follow these writing prin
 - Clarity
 - Humanity
 
-# Session Privacy
-
-Do not include the current agent session, its ID, link, transcript, metadata, or attribution in commit messages or any other output or generated artifact unless the user explicitly asks you to do so.
-
-# Pushing to Git
-
-When you push a new branch, prefer `git push -u <remote> <branch>` so Git records the upstream branch.
-
 # RTK
 
 RTK (`rtk`) is a command proxy. It reduces command output when the full output is not necessary.
