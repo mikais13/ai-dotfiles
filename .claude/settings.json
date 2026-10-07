@@ -41,7 +41,8 @@
     ],
     "deny": [
       "Read(**/.env*)",
-      "Edit(**/.env*)"
+      "Edit(**/.env*)",
+      "Skill(caveman:caveman-commit)"
     ],
     "defaultMode": "auto"
   },
