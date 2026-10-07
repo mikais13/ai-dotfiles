@@ -1,51 +1,65 @@
 ---
 name: add-to-stack
-description: Add the current branch or a confirmed branch chain to a gh-stack stack and submit its pull request.
+description: Start a gh-stack stack from the current branch chain, or add a branch on top of a stack, then open draft pull requests and write their descriptions.
 disable-model-invocation: true
+compatibility: Requires Git 2.36+, GitHub CLI with the gh-stack extension, and the gh-stack skill.
 ---
 
-## Shared subroutines
+# Add to a Stack
 
-### Load gh-stack mechanics
+This skill starts a stack when none exists, and adds a layer when a stack exists. The user does not need to say which case applies.
 
-Before running any `gh stack` command, load and follow the `gh-stack` skill. Never guess flags from memory. Bare `gh stack view` and `gh stack submit` without `--auto` can wait for interactive input. Check the skill's flag tables for `init` and `add`.
+## 1. Load the Stack State
 
-### Fill-missing-descriptions loop
+Load and follow the `gh-stack` skill before you run a `gh stack` command. Do not use flags from memory. Run `gh stack view --json`. If the repository has more than one remote and `remote.pushDefault` is not set, add `--remote <name>` to `gh stack submit`.
 
-Given the `branches` array from a fresh `gh stack view --json`, for each entry that has a `pr.number`:
+- If the command exits 2, there is no stack. Go to step 2.
+- If it succeeds, go to step 3.
 
-1. `gh pr view <number> --json body` — if `body` is non-empty and doesn't look like a bare auto-generated stub (i.e. it has more than just a commit-message dump with no structure), **skip this PR**. Never overwrite existing content here — only true gaps get filled.
-2. Otherwise, resolve this branch's actual parent **branch name** — do NOT use the `base` field from `gh stack view --json` for this (that field is the parent's HEAD SHA at last sync, not a branch name). Instead use `gh pr view <number> --json baseRefName` to get the real base branch name GitHub has recorded for this PR.
-3. Diff against that real base: `git log <baseRefName>...<branch> --oneline`, `git diff <baseRefName>...<branch>`.
-4. Load the `pr-description` skill with `base branch: <baseRefName>`. This uses Mikai's style guide and supplies the resolved base explicitly.
-5. Generate a semantic-commit-style title (`type(scope): description`, same format/types as `create-pr`) and apply both: `gh pr edit <number> --title "<title>" --body "$(cat <<'EOF'
-<description>
+## 2. Start a Stack
 
-EOF
-)"`.
+1. Find the trunk. For each of `main`, `master`, `develop`, and `staging` that exists as `origin/<branch>`, run `git merge-base HEAD origin/<branch>`. The branch with the newest merge base is the trunk.
+2. If `HEAD` is the trunk, ask the user for a name for the first layer. Use the naming conventions of the user or the repository. If there are none, use `<topic>/<concern>`. Run `gh stack init -b <trunk> <name>`. Stage and commit the changes as in items 3 and 4 of step 3.3, then go to step 4.
+3. Find the branch chain. List the local branches (`git for-each-ref refs/heads --format='%(refname:short)'`). Keep each branch that is an ancestor of `HEAD` (`git merge-base --is-ancestor <branch> HEAD`) and that contains the trunk (`git merge-base --is-ancestor <trunk> <branch>`). Sort them from the bottom up by `git rev-list --count <trunk>..<branch>`.
+4. Show the chain and the trunk to the user. Let the user correct them. Do not create a stack from a chain that the user did not confirm.
+5. Run `gh stack init -b <trunk> <branch-1> … <branch-n>`. `init` adopts existing branches, so you do not need `gh stack add`.
+6. If there are uncommitted changes, ask whether they belong to the top branch or to a new layer. Commit them on the top branch, or go to step 3.3.
 
-### Branch-chain detection (bootstrap only)
+Go to step 4.
 
-Used when no stack exists yet and you need to figure out which local branches make up the chain from trunk to the current branch.
+## 3. Add a Layer
 
-1. Determine trunk the same way `create-pr` resolves base branches: for each of `main master develop staging` that exists as `origin/<b>`, compute `git merge-base HEAD origin/<b>`; the closest (most recent) merge-base wins.
-2. Enumerate candidate branches: `git for-each-ref refs/heads --format='%(refname:short)'`, filtered to those that are both an ancestor of `HEAD` and a strict descendant of trunk (`git merge-base --is-ancestor <branch> HEAD` and `git merge-base --is-ancestor <trunk> <branch>`).
-3. Order the surviving candidates bottom-to-top by ancestor distance from trunk: `git rev-list --count <trunk>..<branch>`, ascending.
-4. This ordered list plus the resolved trunk is what you propose to the user in step 2 below — never run `gh stack init` on a guessed chain without confirmation.
+If there are no uncommitted changes and the user names no branch to add, but some layers have no `pr` entry, go to step 4 to open their pull requests.
 
-## Procedure
+1. The current branch must be the top layer: the last branch in the stack that is not merged. `gh stack add` fails on other branches. If the current branch is not the top layer, tell the user and stop. Do not move to another branch for the user.
+2. **To add an existing branch:** make sure that it contains the top layer (`git merge-base --is-ancestor <top> <branch>`). If it does not, show `git log --oneline <top>..<branch>`, ask the user how to place the branch, and stop. Otherwise, run `gh stack add <branch>`.
+3. **To add uncommitted changes:**
+   1. If some changes belong to lower layers, recommend `/absorb-into-stack` for them first.
+   2. Confirm the branch name with the user. Run `gh stack add <name>`. This command does not change the working tree, so the changes move to the new branch.
+   3. Stage only the files that belong to this layer. If the changes are mixed, ask the user which files to stage.
+   4. Run `git commit -m "<message>"`. Use the form `type(scope): summary`.
+4. If there are no changes and no branch to add, ask the user what the new layer must contain.
 
-Handles both "start a stack" and "add to a stack" — branch internally on whether one already exists. The caller never needs to know which case applies.
+## 4. Open the Pull Requests
 
-1. Run `gh stack view --json`.
-2. **If it fails / exit code 2 (no stack yet) — bootstrap path:**
-   a. Run branch-chain detection (subroutine above).
-   b. Ask the user to confirm the detected chain, in order, and the trunk before any mutation. Let the user correct either value.
-   c. `gh stack init <branches...> -b <trunk>` — this registers the whole confirmed chain in one call (existing branches are adopted automatically), so no separate `add` call is needed for bootstrap.
-3. **If it succeeds (stack already exists) — incremental path:**
-   a. From the JSON, confirm the current branch is checked out on top of the stack's current top. `gh stack add` must run from the topmost branch — it exits with code 5 ("can only add branches on top of the stack") otherwise. If not on top, tell the user and stop rather than guessing whether to navigate for them.
-   b. Re-check the loaded `gh-stack` skill for `add`'s exact flags before running it: plain `gh stack add <branch>` if the branch already has commits, `-Am "<message>"` only if you need to stage-and-commit uncommitted changes into a brand-new branch. Don't default to `-Am` when the branch already has commits — it isn't needed and changes behavior.
-   c. Run the resolved `gh stack add ...` invocation.
-4. **Both paths converge here:** `gh stack submit --auto` — no `--open` (draft by default; only add it if the user explicitly asked for ready-for-review PRs this run). This pushes and creates PRs for whatever branches don't have one yet; branches with existing PRs are synced but not recreated.
-5. Run the fill-missing-descriptions loop (bootstrap: across the whole new stack; incremental: in practice just the new branch's PR, since older ones should already have real descriptions from a prior run).
-6. Report a branch → PR URL → state table from a final `gh stack view --json`.
+Run `gh stack submit --auto`. It pushes each branch and opens a draft pull request for each branch that has none. Add `--open` only when the user asks for pull requests that are ready for review.
+
+`submit` is not atomic. If the remote rejects a push, fix that branch and run the same command again. If it exits 9, stacked pull requests are not turned on for the repository. Tell the user.
+
+## 5. Write the Descriptions
+
+Read `../describe-stack/SKILL.md` (relative to this skill's directory) and run it in fill mode:
+
+- For a new stack, fill all pull requests.
+- For a new layer, fill only the pull request of the new layer.
+
+## 6. Report
+
+Run `gh stack view --json` and show a table: branch, PR URL, and PR state.
+
+## Required Behavior
+
+- Ask the user to confirm the branch chain and the trunk before you run `gh stack init`.
+- Open draft pull requests unless the user asks for ready ones.
+- Do not overwrite a pull request description that has real content.
+- Stage files on purpose. Do not use `gh stack add -Am` to commit all changes.

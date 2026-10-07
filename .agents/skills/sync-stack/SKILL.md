@@ -1,34 +1,64 @@
 ---
 name: sync-stack
-description: Synchronize and prune a gh-stack stack, then fill missing pull request descriptions.
+description: Sync a gh-stack stack with the latest trunk and GitHub, prune merged branches, and fill missing pull request descriptions.
 disable-model-invocation: true
+compatibility: Requires Git 2.36+, GitHub CLI with the gh-stack extension, and the gh-stack skill.
 ---
 
-## Shared subroutines
+# Sync a Stack
 
-### Load gh-stack mechanics
+Use this skill for the routine update, for example after a pull request in the stack merges on GitHub. It moves the stack onto the latest trunk. To align the layers and keep the current base, use `/rebase-stack`.
 
-Before running any `gh stack` command, load and follow the `gh-stack` skill. Never guess flags from memory. Check its documentation for the exact `sync` behavior and flags.
+## 1. Load the Stack State
 
-### Fill-missing-descriptions loop
+Load and follow the `gh-stack` skill before you run a `gh stack` command. Do not use flags from memory. Run `gh stack view --json`. If the repository has more than one remote and `remote.pushDefault` is not set, add `--remote <name>` to `gh stack sync`.
 
-Given the `branches` array from a fresh `gh stack view --json`, for each entry that has a `pr.number`:
+## 2. Sync
 
-1. `gh pr view <number> --json body` — if `body` is non-empty and doesn't look like a bare auto-generated stub, **skip this PR**. Never overwrite existing content here — only true gaps get filled.
-2. Otherwise, resolve this branch's actual parent **branch name** via `gh pr view <number> --json baseRefName` — do NOT use `gh stack view --json`'s `base` field (that's the parent's HEAD SHA at last sync, not a branch name).
-3. Diff against that real base: `git log <baseRefName>...<branch> --oneline`, `git diff <baseRefName>...<branch>`.
-4. Load the `pr-description` skill with `base branch: <baseRefName>`.
-5. Generate a semantic-commit-style title (`type(scope): description`) and apply both: `gh pr edit <number> --title "<title>" --body "$(cat <<'EOF'
-<description>
+Run `gh stack sync --prune`. It fetches, gets changes to the stack from GitHub, fast-forwards the trunk, rebases the layers, pushes, refreshes the pull request state, and deletes local branches of merged pull requests.
 
-EOF
-)"`.
+Then do the step that agrees with the result:
 
-## Procedure
+- **The output contains `Sync aborted` (exit 0):** go to step 3.
+- **Exit 3:** go to step 4.
+- **Exit 0:** go to step 5.
+- **Other exit codes:** use the exit code table in the `gh-stack` skill.
 
-1. `gh stack view --json` for current state.
-2. Run `gh stack sync --prune` for the routine path. It fetches, reconciles the remote stack, fast-forwards trunk, rebases dependent branches, pushes, synchronizes pull request state, updates the stack object, and prunes merged branches. This routine path does not need a confirmation gate.
-   - If sync reports a diverged local/remote stack, it aborts non-interactively with `ℹ Sync aborted` — report this to the user rather than retrying; resolving a divergence requires `unstack` + re-`init`, which is a structural decision the user should make explicitly (treat as a `edit-stack` follow-up, not something to do automatically here).
-   - If sync exits 3 (rebase conflict), follow the `gh-stack` skill's documented conflict-resolution loop: parse stderr for conflicted file paths, resolve them, `git add`, `gh stack rebase --continue`.
-3. Run the fill-missing-descriptions loop afterward — new commits from the rebase don't change already-filled bodies, only genuinely empty ones get generated.
-4. Report a final `gh stack view --json` summary, calling out anything pruned or merged.
+## 3. Fix a Divergence
+
+`Sync aborted` means that the local stack and the stack on GitHub changed in different ways. Sync made no changes. Show both chains from the output. Then ask the user to choose one of these fixes:
+
+- **Keep the GitHub stack:**
+
+  ```bash
+  gh stack unstack --local
+  gh stack checkout <stack-number>
+  ```
+
+- **Keep the local stack:**
+
+  ```bash
+  gh stack unstack
+  gh stack submit --auto
+  ```
+
+Pull requests and branches stay. Run the fix that the user chooses, then go back to step 2.
+
+## 4. Fix a Conflict
+
+When sync stops with a conflict, it restores each branch to its state before the rebase. No rebase is in progress, so `gh stack rebase --continue` does not apply.
+
+Read `../rebase-stack/SKILL.md` (relative to this skill's directory) and run it in latest-trunk mode. Then go back to step 2.
+
+## 5. Write the Descriptions
+
+Read `../describe-stack/SKILL.md` and run it in fill mode for all pull requests.
+
+## 6. Report
+
+Run `gh stack view --json` and show a table: branch, PR URL, and PR state. List the branches that merged and the local branches that sync deleted.
+
+## Required Behavior
+
+- Do not choose a divergence fix for the user.
+- Do not overwrite a pull request description that has real content.
