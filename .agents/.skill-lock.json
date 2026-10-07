@@ -6,27 +6,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
       "skillPath": "skills/skill-creator/SKILL.md",
-      "skillFolderHash": "a01fbe3fa7f17f64173bd4fdcfecea86a3fd664c",
+      "skillFolderHash": "3cf9a8db32597ba3e24b584a3d696f4e11c7d7b6",
       "installedAt": "2026-02-20T03:38:43.307Z",
-      "updatedAt": "2026-02-20T03:57:05.857Z"
+      "updatedAt": "2026-10-07T11:36:09.496Z"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/skills.git",
       "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
       "installedAt": "2026-02-20T03:38:54.813Z",
-      "updatedAt": "2026-02-20T03:59:55.007Z"
+      "updatedAt": "2026-10-07T11:36:11.546Z"
     },
     "agent-browser": {
       "source": "vercel-labs/agent-browser",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
       "skillPath": "skills/agent-browser/SKILL.md",
-      "skillFolderHash": "56959a2ddd833553648e4a884c344acd52e89434",
+      "skillFolderHash": "82def67855a0d2aad7794207951820fa5422fdb0",
       "installedAt": "2026-02-25T03:10:44.445Z",
-      "updatedAt": "2026-02-25T03:10:44.445Z"
+      "updatedAt": "2026-10-07T11:36:13.661Z"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
@@ -42,9 +42,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/wshobson/agents.git",
       "skillPath": "plugins/frontend-mobile-development/skills/nextjs-app-router-patterns/SKILL.md",
-      "skillFolderHash": "9756cecd3eac4e42a2f09e92859b955b1166b450",
+      "skillFolderHash": "a4c1ad78df67850628ebc3d6b7210f48b846942c",
       "installedAt": "2026-04-09T03:17:46.327Z",
-      "updatedAt": "2026-04-09T03:35:10.867Z"
+      "updatedAt": "2026-10-07T11:36:16.624Z"
     },
     "plannotator-compound": {
       "source": "backnotprop/plannotator",
@@ -69,18 +69,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/plannotator.git",
       "skillPath": "apps/skills/extra/plannotator-visual-explainer/SKILL.md",
-      "skillFolderHash": "a48af6a5c5e110a538af6174f485cfd4e5b9d276",
+      "skillFolderHash": "060525d9a83760cc7cbc3004217c596a76a3e39a",
       "installedAt": "2026-06-12T09:35:27.498Z",
-      "updatedAt": "2026-06-12T09:35:27.498Z"
+      "updatedAt": "2026-10-07T11:36:28.649Z"
     },
     "gh-stack": {
       "source": "github/gh-stack",
       "sourceType": "github",
       "sourceUrl": "https://github.com/github/gh-stack.git",
       "skillPath": "skills/gh-stack/SKILL.md",
-      "skillFolderHash": "c95c8b5b4dd850f3fef007b304428f5684f2fb87",
+      "skillFolderHash": "bde7bcf5a96697d31aa55b33565fa0ff002167ca",
       "installedAt": "2026-07-30T23:02:23.107Z",
-      "updatedAt": "2026-07-30T23:02:23.107Z"
+      "updatedAt": "2026-10-07T11:36:32.038Z"
     }
   },
   "dismissed": {
