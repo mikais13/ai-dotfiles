@@ -6,16 +6,14 @@ My global configuration for AI coding agents. Claude Code is the main agent. Cod
 
 The repository root mirrors `$HOME`. GNU Stow links the contents into place.
 
-| Path | Contents |
-| --- | --- |
-| `.agents/AGENTS.md` | Shared global instructions. It has no `@` imports, because Codex and OpenCode do not expand them. |
-| `.agents/skills/` | The only copy of each shared skill. Codex and OpenCode read this directory. |
-| `.claude/` | Claude Code: `CLAUDE.md` (imports the shared instructions), `settings.json`, the status line, and the `pr-creator` agent. |
-| `.claude/skills/` | Relative links to `../../.agents/skills/<name>`. Claude Code reads only `~/.claude/skills`. |
-| `.codex/` | Codex: a link to the shared `AGENTS.md`, `hooks.json`, and `config.base.toml`. |
-| `.config/opencode/` | OpenCode: `opencode.json` and a link to the shared `AGENTS.md`. |
-
-T3 Code uses the configuration of each agent above. It needs no files here.
+| Path                | Contents                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `.agents/AGENTS.md` | Shared global instructions. It has no `@` imports, because Codex and OpenCode do not expand them.                         |
+| `.agents/skills/`   | The only copy of each shared skill. Codex and OpenCode read this directory.                                               |
+| `.claude/`          | Claude Code: `CLAUDE.md` (imports the shared instructions), `settings.json`, the status line, and the `pr-creator` agent. |
+| `.claude/skills/`   | Relative links to `../../.agents/skills/<name>`. Claude Code reads only `~/.claude/skills`.                               |
+| `.codex/`           | Codex: a link to the shared `AGENTS.md`, `hooks.json`, and `config.base.toml`.                                            |
+| `.config/opencode/` | OpenCode: `opencode.json` and a link to the shared `AGENTS.md`.                                                           |
 
 ## Shared or Claude-only
 
