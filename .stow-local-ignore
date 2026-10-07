@@ -11,6 +11,9 @@
 ^/CLAUDE\.md
 ^/biome\.json
 
+# Editor settings for this repository only.
+^/\.zed
+
 # Copy this template to ~/.codex/config.toml one time. Codex writes
 # machine-local data to its config file.
 ^/\.codex/config\.base\.toml
