@@ -4,3 +4,13 @@
 /.claude/skills/synced/
 /.claude/skills/.trash/
 /.agents/skills/synced/
+
+# The plannotator installer writes these skills. Install plannotator to get them.
+/.claude/skills/plannotator/
+/.claude/skills/plannotator-annotate/
+/.claude/skills/plannotator-last/
+/.claude/skills/plannotator-review/
+/.agents/skills/plannotator/
+/.agents/skills/plannotator-annotate/
+/.agents/skills/plannotator-last/
+/.agents/skills/plannotator-review/
