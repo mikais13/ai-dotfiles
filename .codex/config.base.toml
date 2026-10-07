@@ -1,0 +1,62 @@
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+
+[desktop]
+followUpQueueMode = "steer"
+# Keep this off. This repo shares the Claude config with Codex, and the import made duplicate skills.
+external-agent-import-sync-enabled = false
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = false
+
+[marketplaces.caveman]
+source_type = "git"
+source = "https://github.com/JuliusBrussee/caveman.git"
+
+[marketplaces.claude-plugins-official]
+source_type = "git"
+source = "https://github.com/anthropics/claude-plugins-official.git"
+
+[marketplaces.plannotator]
+source_type = "git"
+source = "https://github.com/backnotprop/plannotator.git"
+
+[plugins."caveman@caveman"]
+enabled = true
+
+[plugins."code-simplifier@claude-plugins-official"]
+enabled = true
+
+[plugins."frontend-design@claude-plugins-official"]
+enabled = true
+
+[plugins."pr-review-toolkit@claude-plugins-official"]
+enabled = true
+
+[plugins."ralph-loop@claude-plugins-official"]
+enabled = true
+
+[plugins."typescript-lsp@claude-plugins-official"]
+enabled = true
+
+[plugins."plannotator@plannotator"]
+enabled = true
+
+[plugins."code-review@claude-plugins-official"]
+enabled = true
+
+[plugins."discord@claude-plugins-official"]
+enabled = true
+
+# Match Claude's status line with Codex's built-in fields.
+[tui]
+alternate_screen = "always"
+status_line = [
+  "model",
+  "current-dir",
+  "git-branch",
+  "used-tokens",
+  "context-window-size",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+]
