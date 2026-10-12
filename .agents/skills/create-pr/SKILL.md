@@ -20,14 +20,17 @@ Run independent read-only checks in parallel when possible:
 
 Stop if the current branch is the repository's default branch.
 
-For each remote branch that exists in `main`, `master`, `develop`, and `staging`, find its merge base with `HEAD`. Recommend the branch with the newest merge base.
+## 2. Choose the Base Branch
 
-## 2. Confirm User Choices
+If the user names a base branch, use it.
 
-Ask the user to select the base branch and one title option:
+Otherwise, select the base branch from the evidence:
 
-- generate a semantic title from the changes; or
-- use a title that the user supplies.
+- the branch that this branch was created from, if `git reflog` or a stack tool such as `gh stack` shows it;
+- for each remote branch that exists in `main`, `master`, `develop`, and `staging`, the merge base with `HEAD`; the newest merge base is usually the parent;
+- an open pull request whose head branch is the parent of this branch, for stacked work.
+
+If one branch is clearly correct, use it and do not ask. If two or more branches are possible, use the question tool of the harness (`AskUserQuestion` in Claude Code). Give two to four candidates. Put the recommended branch first, and give the reason for each candidate.
 
 Use the selected base branch for every later comparison and for pull request creation.
 
@@ -49,7 +52,11 @@ Read key files if the diff is too large to understand from one command.
 
 ## 5. Create the Pull Request
 
-If the user asked for a generated title, use `type(scope): description`. Use an imperative, lowercase description. Types: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`, `perf`, `ci`, `build`.
+Select the title. Do not ask the user about the title.
+
+1. If the user supplies a title, use it.
+2. If the branch has one commit, use the subject of that commit.
+3. Otherwise, generate a title in the commit format of the repository. Find the format in the branch commits and in `git log <base> --oneline -20`. This is usually Conventional Commits: `type(scope): description`, with an imperative, lowercase description. Types: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`, `perf`, `ci`, `build`.
 
 Warn about uncommitted changes, but create the pull request from committed changes. Push an unpublished branch with:
 
@@ -67,7 +74,8 @@ Return the pull request URL.
 
 ## Required Behavior
 
-- Ask the user to confirm the base branch and title method.
+- Ask about the base branch only when it is not clear.
+- Do not ask about the title. Use the title rules in step 5.
 - Use the same base branch for analysis, description generation, and creation.
 - Include a specific "How to test this change" section.
 - Use backticks for code references.
