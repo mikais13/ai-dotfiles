@@ -16,4 +16,7 @@ if grep -qE '(^|[^[:alnum:]_-])git([[:space:]]|$)' <<<"$cmd"; then
     [[ -n $dir && $dir != "$common" ]] && exit 0
 fi
 
+# rtk hides entries from ls and find output.
+grep -qE '(^|[;&|(][[:space:]]*)(ls|find)([[:space:]]|$)' <<<"$cmd" && exit 0
+
 rtk hook claude <<<"$input"
