@@ -1,5 +1,8 @@
 {
   "skillListingBudgetFraction": 0.02,
+  "env": {
+    "NO_COLOR": "1"
+  },
   "attribution": {
     "commit": "",
     "pr": "",
