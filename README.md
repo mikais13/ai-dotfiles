@@ -10,6 +10,7 @@ The repository root mirrors `$HOME`. GNU Stow links the contents into place.
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `.agents/AGENTS.md` | Shared global instructions. It has no `@` imports, because Codex and OpenCode do not expand them.                         |
 | `.agents/skills/`   | The only copy of each shared skill. Codex and OpenCode read this directory.                                               |
+| `.agents/hooks/`    | Hook scripts that Claude Code and Codex share. Each `PreToolUse` config calls them through `~/.agents/hooks`.             |
 | `.claude/`          | Claude Code: `CLAUDE.md` (imports the shared instructions), `settings.json`, the status line, and the `pr-creator` agent. |
 | `.claude/skills/`   | Relative links to `../../.agents/skills/<name>`. Claude Code reads only `~/.claude/skills`.                               |
 | `.codex/`           | Codex: a link to the shared `AGENTS.md`, `hooks.json`, and `config.base.toml`.                                            |

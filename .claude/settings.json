@@ -67,6 +67,10 @@
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/block-worktree-add.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.agents/hooks/block-recursive-grep.sh"
           }
         ]
       }
