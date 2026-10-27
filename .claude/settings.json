@@ -43,8 +43,10 @@
       "Bash(git worktree:*)"
     ],
     "deny": [
-      "Read(**/.env*)",
-      "Edit(**/.env*)",
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Edit(**/.env)",
+      "Edit(**/.env.local)",
       "Skill(caveman:caveman-commit)"
     ],
     "defaultMode": "auto"
@@ -60,7 +62,7 @@
           },
           {
             "type": "command",
-            "command": "cmd=$(jq -r \".tool_input.command // empty\"); if [ -n \"$cmd\" ] && printf \"%s\" \"$cmd\" | grep -qE \"(^|[^a-zA-Z0-9_])\\.env([^a-zA-Z0-9_]|$)\"; then echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Blocked: command references a .env file\\\"}}\"; fi"
+            "command": "$HOME/.agents/hooks/block-env-files.sh"
           }
         ]
       },

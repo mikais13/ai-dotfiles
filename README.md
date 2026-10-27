@@ -24,7 +24,7 @@ The repository root mirrors `$HOME`. GNU Stow links the contents into place.
 
 ## Install
 
-Requirements: Git, GNU Stow, Node.js (status line), `jq` (`.env` guard hook), and [RTK](https://github.com/rtk-ai/rtk).
+Requirements: Git, GNU Stow, Node.js (status line), `jq` and Perl (hooks), and [RTK](https://github.com/rtk-ai/rtk).
 
 ```sh
 git clone git@github.com:mikais13/ai-dotfiles.git ~/ai-dotfiles
