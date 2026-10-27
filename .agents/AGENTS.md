@@ -24,3 +24,7 @@ RTK (`rtk`) is a command proxy. It reduces command output when the full output i
 - If your client has no hook, use `rtk <command>` when reduced output is sufficient.
 - Use `rtk bypass <command>` or the original command when you need the exact, complete output.
 - `rtk gain` shows the token savings. `rtk discover` finds commands that RTK can reduce.
+
+# Search
+
+Use `rg`, not `grep -r`. Filter by type with `-t ts` or a quoted glob (`-g '*.tsx'`). `rg` skips gitignored paths, so add `--no-ignore` to search paths such as `node_modules`.
