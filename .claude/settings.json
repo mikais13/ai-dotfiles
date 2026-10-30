@@ -111,7 +111,8 @@
     "plannotator@plannotator": true,
     "typescript-lsp@claude-plugins-official": true,
     "caveman@caveman": true,
-    "engineering@synced": false
+    "engineering@synced": false,
+    "delta@zed-industries": true
   },
   "extraKnownMarketplaces": {
     "plannotator": {
@@ -124,6 +125,12 @@
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "zed-industries": {
+      "source": {
+        "source": "github",
+        "repo": "zed-industries/delta-claude"
       }
     }
   },
