@@ -24,9 +24,10 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
       "skillPath": "skills/agent-browser/SKILL.md",
-      "skillFolderHash": "82def67855a0d2aad7794207951820fa5422fdb0",
+      "skillFolderHash": "d75a393c9a371295c6d6be46c34938e76ef21184",
       "installedAt": "2026-02-25T03:10:44.445Z",
-      "updatedAt": "2026-10-07T11:36:13.661Z"
+      "updatedAt": "2026-11-18T11:18:53.533Z",
+      "commit": "deda8eff5e29bcc3b4a9f10aafd1412dbe91745a"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
@@ -51,9 +52,10 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/plannotator.git",
       "skillPath": "apps/skills/extra/plannotator-compound/SKILL.md",
-      "skillFolderHash": "e7cb3bf5836705facedb2f94c6648f269d3f0748",
+      "skillFolderHash": "73dcebd303714bcc3fbdffae162068435eb49d97",
       "installedAt": "2026-06-12T09:35:27.495Z",
-      "updatedAt": "2026-06-12T09:35:27.495Z"
+      "updatedAt": "2026-11-18T11:18:53.798Z",
+      "commit": "b766218280fd57363f93ebf314a5b59352ce165e"
     },
     "plannotator-setup-goal": {
       "source": "backnotprop/plannotator",
@@ -69,18 +71,20 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/plannotator.git",
       "skillPath": "apps/skills/extra/plannotator-visual-explainer/SKILL.md",
-      "skillFolderHash": "060525d9a83760cc7cbc3004217c596a76a3e39a",
+      "skillFolderHash": "48b1d39f317db181b75c8c4dafba6b78bb8f17a4",
       "installedAt": "2026-06-12T09:35:27.498Z",
-      "updatedAt": "2026-10-07T11:36:28.649Z"
+      "updatedAt": "2026-11-18T11:18:54.070Z",
+      "commit": "b766218280fd57363f93ebf314a5b59352ce165e"
     },
     "gh-stack": {
       "source": "github/gh-stack",
       "sourceType": "github",
       "sourceUrl": "https://github.com/github/gh-stack.git",
       "skillPath": "skills/gh-stack/SKILL.md",
-      "skillFolderHash": "bde7bcf5a96697d31aa55b33565fa0ff002167ca",
+      "skillFolderHash": "1f58c48379bc9fcab68e8a37cb41aad3ad937419",
       "installedAt": "2026-07-30T23:02:23.107Z",
-      "updatedAt": "2026-10-07T11:36:32.038Z"
+      "updatedAt": "2026-11-18T11:18:54.100Z",
+      "commit": "80b6d6e910cc1b7eaa26b961d7721ade21084fed"
     },
     "modern-web-guidance": {
       "source": "GoogleChrome/modern-web-guidance",
